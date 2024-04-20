@@ -13,7 +13,6 @@ Rails.application.routes.draw do
     sessions: "admin/sessions"
   }
   
-  
   namespace :admin do
     get 'homes/top'
     
@@ -37,6 +36,7 @@ Rails.application.routes.draw do
     patch 'order_details/update'
     
     get 'orders/show'
+    get 'orders/index'
     patch 'orders/update'
   end
 
@@ -50,8 +50,7 @@ Rails.application.routes.draw do
     get 'orders/index'
     get 'orders/show'
     
-    get 'items/index'
-    get 'items/show'
+    resources :items, only: [:index, :show]
     
     get 'cart_items/index'
     patch 'cart_items/update'
