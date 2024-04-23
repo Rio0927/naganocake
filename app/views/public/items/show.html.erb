@@ -11,6 +11,12 @@
                 <%= image_tag @item.get_image(100, 100) %>
                 <%= @item.name %>
                 $<%= @item.price %>
+                <%= form_with model: @cart_item, url: public_cart_items_create_path do |f| %>
+                    <%#= hiddenfieldで@itemのidを送る %>
+                    <%= f.hidden_field :item_id, value: @item.id %>
+                    <%= f.select :amount, *[1..10], { include_blank: "個数を選択してください" } %>
+                    <%= f.submit "カートに入れる", class: "btn btn-success"%>
+                <% end %>
         </div>
     </div>    
 </div>
