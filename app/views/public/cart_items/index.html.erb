@@ -1,10 +1,16 @@
-<P>ショッピングカート</P>
-<%= link_to "カートを空にする", public_cart_items_destroy_all_path, class: "btn btn-danger" %>
+ <div class="container">
+    <div class="row">
+        <div class="col-3 bg-light">
+            <p class="font-weight-bold text-center">ショッピングカート</P>
+        </div>
+        <div class="ml-auto">
+            <%= link_to "カートを空にする",  public_cart_items_destroy_all_path, method: :delete, class: "btn btn-danger" %>
+        </div>
+    </div><br>
 
-<% @cart_items.each do |cart_item| %>
     <table class="table table-bordered">
         <thead>
-            <tr>
+            <tr class="bg-light">
                 <th>商品名</th>
                 <th>単価(税込)</th>
                 <th>数量</th>
@@ -13,13 +19,30 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><%= cart_item.item.name %></td>
-                <td><%= cart_item.item.price %></td>
-                <td><%= cart_item.item.name %></td>
-                <td><%= cart_item.item.price * cart_item.amount %></td>
-                <td><%= link_to "削除する", public_cart_items_destroy_path, class: "btn btn-danger" %></td>
-            </tr>
+            <% @cart_items.each do |cart_item| %>
+                <tr>
+                    <td><%= cart_item.item.name %></td>
+                    <td><%= cart_item.item.price %></td>
+                    <td>
+                        <%= form_with model: cart_item, url: public_cart_item_update_path(cart_item.id), method: :patch do |f| %>
+                            <%= f.select :amount, *[1..10] %>
+                            <%= f.submit "変更", class: "btn btn-success" %>
+                        <% end %>
+                    </td>
+                    <td><%= cart_item.item.price * cart_item.amount %></td>
+                    <td><%= link_to "削除する", public_cart_item_destroy_path(cart_item.id), method: :delete, class: "btn btn-danger" %></td>
+                </tr>
+            <% end %>
         </tbody>
-    </table>
-<% end %>
+    </table><br>
+    
+    <div class="row">
+        <%= link_to "買い物を続ける", public_items_path, class: "btn btn-info mr-auto text-center h-25 my-auto" %>
+        <table class="col-3 table table-bordered my-auto">
+            <tr>
+                <td>合計金額</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>    

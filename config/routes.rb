@@ -53,9 +53,9 @@ Rails.application.routes.draw do
     resources :items, only: [:index, :show]
     
     get 'cart_items/index'
-    patch 'cart_items/update'
-    delete 'cart_items/destroy'
-    delete 'cart_items/destroy_all'
+    patch '/cart_items/:id' => 'cart_items#update', as: 'cart_item_update' 
+    delete 'cart_items/destroy_all' => 'cart_items#destroy_all', as: 'cart_items_destroy_all'
+    delete 'cart_items/:id' => 'cart_items#destroy', as: 'cart_item_destroy'
     post 'cart_items/create'
     
     get 'addresses/index'
